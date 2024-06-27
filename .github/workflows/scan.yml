@@ -21,10 +21,13 @@ jobs:
       run: |
         curl -L https://semgrep.dev/install.sh | sh
         export PATH=$HOME/.local/bin:$PATH
-      
+
+    - name: Verify Semgrep installation
+      run: semgrep --version
+
     - name: Run Semgrep
-      run: |
-        semgrep --config=p/r2c/python-security main.py  # Adjust command and files to scan
+      run:  semgrep --config=p/r2c/python-security main.py
+         
         
     - name: Upload Semgrep results
       if: always()  # Upload results even if Semgrep fails
