@@ -1,0 +1,39 @@
+name: Snyk Security Scan
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch name as needed
+  pull_request:
+    branches:
+      - main  # Adjust branch name as needed
+
+jobs:
+  snyk-scan:
+    name: Snyk Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Install Node.js and npm
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Test with Snyk
+      run: |
+        npm install -g snyk
+        snyk auth ${{ secrets.SNYK_TOKEN }}
+        snyk test --all-projects --severity-threshold=high
+      
+    - name: Upload Snyk test results
+      if: always()  # Upload results even if Snyk fails
+      uses: actions/upload-artifact@v2
+      with:
+        name: snyk-report
+        path: .snyk-test-results.json
