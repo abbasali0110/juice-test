@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main  # Adjust branch name as needed
-  pull_request:{}
-  schedule:
-    - cron: '00 * * 0'
+  pull_request:
+    branches:
+      - main 
 jobs:
   analyze:
     name: Analyze
