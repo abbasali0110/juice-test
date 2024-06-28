@@ -2,8 +2,11 @@ name: "CodeQL Scan"
 
 on:
   push:
-  pull_request:
-
+    branches:
+      - main  # Adjust branch name as needed
+  pull_request:{}
+  schedule:
+    - cron: '00 * * 0'
 jobs:
   analyze:
     name: Analyze
